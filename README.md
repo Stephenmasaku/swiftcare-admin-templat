@@ -95,3 +95,7 @@ npm run dev
 # or
 yarn dev
 
+=======
+# swiftcare-admin-templat
+A modern, customizable admin dashboard template for Swift Care — built with React and MUI. Perfect for Hospital Management, Pharmacy POS, HR, Payroll, CRM, and more.
+>>>>>>> 43194a3eedb64d88828c2a6c679cb0fbdea86261
