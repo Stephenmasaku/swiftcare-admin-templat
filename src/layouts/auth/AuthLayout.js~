@@ -1,0 +1,38 @@
+import React from 'react';
+import 'materialize-css/dist/css/materialize.min.css';
+import 'material-design-icons/iconfont/material-icons.css';
+import './AuthLayout.css'; // optional for extra styling
+import bgImage from '../../assets/images/auth-bg.jpg'; // Adjust to your actual path
+
+const AuthLayout = ({ title = "Welcome", subtitle = "", children }) => {
+  return (
+    <div
+      className="auth-layout"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '1rem',
+      }}
+    >
+      <div className="container">
+        <div className="row justify-content-end">
+          <div className="col s12 m8 l4">
+            <div className="card white z-depth-3 auth-card">
+              <div className="card-content">
+                <h5 className="center-align">{title}</h5>
+                {subtitle && <p className="center-align grey-text">{subtitle}</p>}
+                <div className="section">{children}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AuthLayout;

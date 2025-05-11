@@ -1,0 +1,467 @@
+import React, { useState } from 'react';
+import {
+  Box,
+  CssBaseline,
+  Drawer,
+  Toolbar as MuiToolbar,
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Badge,
+  Menu,
+  MenuItem,
+  Divider,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import { ListItemIcon} from '@mui/material';
+import { Settings, Logout, Person } from '@mui/icons-material';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import Avatar from '@mui/material/Avatar';
+import userImage from '../../assets/images/user.jpg';
+import applogo from '../../assets/images/logo.png';
+import { AccountCircle, Notifications, Message, Menu as MenuIcon } from '@mui/icons-material';
+import Sidebar from './Sidebar';
+import Footer from './Footer';
+import TopToolbar from './Toolbar';
+
+
+
+const drawerWidth = 240;
+const sidebarColor = '#d92550'; // Sidebar color (Office 365-inspired)
+
+export default function Layout({ children }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [notificationMenu, setNotificationMenu] = useState(null);
+  const [messageMenu, setMessageMenu] = useState(null);
+const [searchQuery, setSearchQuery] = useState('');
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleNotificationsMenuOpen = (event) => {
+    setNotificationMenu(event.currentTarget);
+  };
+
+  const handleNotificationsMenuClose = () => {
+    setNotificationMenu(null);
+  };
+
+  const handleMessagesMenuOpen = (event) => {
+    setMessageMenu(event.currentTarget);
+  };
+
+  const handleMessagesMenuClose = () => {
+    setMessageMenu(null);
+  };
+
+  return (
+    <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f4f6f8' }}>
+      <CssBaseline />
+
+      {/* Sidebar Navigation */}
+      <Box
+        component="nav"
+        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
+        aria-label="Sidebar"
+      >
+        {/* Mobile Drawer */}
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{ keepMounted: true }}
+          sx={{
+            display: { xs: 'block', md: 'none' },
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              bgcolor: sidebarColor,
+              color: 'whitesmoke',
+              boxSizing: 'border-box',
+            },
+          }}
+        >
+          <Sidebar onClose={handleDrawerToggle} />
+        </Drawer>
+
+        {/* Desktop Sidebar */}
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'none', md: 'block' },
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              bgcolor: sidebarColor,
+              color: 'whitesmoke',
+              boxSizing: 'border-box',
+            },
+          }}
+          open
+        >
+          {/* Logo on Top of Sidebar */}
+          <Box
+            sx={{
+              bgcolor: sidebarColor,
+              p: 2,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 80,
+            }}
+          >
+            <Typography variant="h6" noWrap component="div" color="whitesmoke">
+              SwiftCare
+            </Typography>
+          </Box>
+
+          <Sidebar />
+        </Drawer>
+      </Box>
+
+      {/* Main Content Area */}
+      <Box
+        component="main"
+       sx={{
+    flexGrow: 1,
+    width: { md: `calc(100% - ${drawerWidth}px)` },
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    backgroundColor: '#f3f2f1', // Office 365-friendly background
+  }}
+      >
+        {/* Top AppBar (Toolbar) */}
+        <AppBar
+          position="fixed"
+          sx={{
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            backgroundColor: '#ffffff',
+            color: '#000',
+            boxShadow: 1,
+          }}
+        >
+          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            {/* Menu Icon for Mobile */}
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2, display: { md: 'none' } }}
+              onClick={handleDrawerToggle}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            {/* Logo */}
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+ 
+  <img
+    src={applogo}
+    alt="SwiftCare Logo"
+    style={{ height: '36px', minHeight: '32px', maxHeight: '36px' }}
+  />
+</Typography>
+
+         
+            
+            
+              {/* Search Input */}
+{/* Search Form */}
+<Box
+  component="form"
+  onSubmit={(e) => {
+    e.preventDefault();
+   // handleSearch(); // Replace with your actual search function
+  }}
+  sx={{
+ display: { xs: 'none', sm: 'none', md: 'flex' },
+
+    alignItems: 'center',
+    border: '1px solid #ccc',
+    borderRadius: '50px',mx:2,
+    overflow: 'hidden',
+    width: { xs: '100%', sm: 280, md: 320 },
+    
+    backgroundColor: '#fff',
+  }}
+>
+  <InputBase
+    placeholder="Search patient by name"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    sx={{
+      ml: 2,
+      flex: 1,
+      fontSize: 14,
+    }}
+    inputProps={{ 'aria-label': 'search patients' }}
+  />
+  <IconButton
+    type="submit"
+    sx={{
+      p: 1,
+      borderRadius: 0,
+      backgroundColor: '#e5e5e5',
+      borderLeft: '1px solid #ccc',
+      '&:hover': {
+        backgroundColor: '#dcdcdc',
+      },
+    }}
+  >
+    <SearchIcon sx={{ color: '#333' }} />
+  </IconButton>
+</Box>
+
+
+            {/* Right Section - Profile, Notifications, Messages */}
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              {/* Notifications */}
+              <IconButton
+                size="large"
+               sx={{ color: '#e5e5e5'}}
+                onClick={handleNotificationsMenuOpen}
+              >
+                <Badge badgeContent={4} color="error">
+                  <Notifications />
+                </Badge>
+              </IconButton>
+             <Menu
+  anchorEl={notificationMenu}
+  open={Boolean(notificationMenu)}
+  onClose={handleNotificationsMenuClose}
+  PaperProps={{
+    sx: {
+      width: 340,
+      maxHeight: 320,
+      mt: 1.5,
+      borderRadius: 2,
+      boxShadow: 3,
+    },
+  }}
+  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+>
+  <Typography variant="subtitle1" sx={{ px: 2, pt: 1 }}>
+    Notifications
+  </Typography>
+
+  <Divider sx={{ my: 1 }} />
+
+  {[
+    '🏥 Patient John Doe admitted to Room 203',
+    '💊 Pharmacy inventory for Paracetamol low, stock reaching critical levels',
+    '🕐 Dr. Smith has a surgery at 2:00 PM today, ensure everything is ready',
+    '💼 New appointment scheduled with Dr. Jane, Patient: Sarah Lee',
+    '🧑‍⚕️ New nurse assigned to Room 204, please update the schedule',
+  ].map((text, index) => (
+    <MenuItem
+      key={index}
+      onClick={handleNotificationsMenuClose}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        fontWeight: 400,
+        fontSize: 14,
+        px: 2, // uniform left and right padding
+        py: 1,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        width: '100%', // force it to fit and truncate
+        maxWidth: '100%',
+        '& span': {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          display: 'block',
+        },
+      }}
+    >
+      <span>{text}</span>
+    </MenuItem>
+  ))}
+
+  <Divider sx={{ my: 1 }} />
+
+  <MenuItem
+    onClick={handleNotificationsMenuClose}
+    sx={{
+      justifyContent: 'center',
+      fontWeight: 400,
+      color: 'primary.main',
+    }}
+  >
+    View All Hospital Notifications
+  </MenuItem>
+</Menu>
+
+
+              {/* Messages */}
+              <IconButton
+                size="large"
+                sx={{ color: '#e5e5e5' }}
+                onClick={handleMessagesMenuOpen}
+              >
+                <Badge badgeContent={3} color="error">
+                  <Message />
+                </Badge>
+              </IconButton>
+            <Menu
+  anchorEl={messageMenu}
+  open={Boolean(messageMenu)}
+  onClose={handleMessagesMenuClose}
+  PaperProps={{
+    elevation: 3,
+    sx: {
+      mt: 1.5,
+      minWidth: 300,
+    },
+  }}
+  anchorOrigin={{
+    vertical: 'bottom',
+    horizontal: 'right',
+  }}
+  transformOrigin={{
+    vertical: 'top',
+    horizontal: 'right',
+  }}
+>
+  <MenuItem onClick={handleMessagesMenuClose}>
+    <Box>
+      <Typography variant="subtitle2">Dr. Smith</Typography>
+      <Typography variant="body2" color="text.secondary">
+        Patient files updated.
+      </Typography>
+    </Box>
+  </MenuItem>
+  <MenuItem onClick={handleMessagesMenuClose}>
+    <Box>
+      <Typography variant="subtitle2">Admin</Typography>
+      <Typography variant="body2" color="text.secondary">
+        Meeting at 4 PM today.
+      </Typography>
+    </Box>
+  </MenuItem>
+  <MenuItem onClick={handleMessagesMenuClose}>
+    <Box>
+      <Typography variant="subtitle2">Reception</Typography>
+      <Typography variant="body2" color="text.secondary">
+        New appointment booked.
+      </Typography>
+    </Box>
+  </MenuItem>
+
+  <Divider sx={{ my: 1 }} />
+
+  <MenuItem
+    onClick={handleMessagesMenuClose}
+    sx={{ justifyContent: 'center', color: 'primary.main', fontWeight: 500 }}
+  >
+    View All Hospital Messages
+  </MenuItem>
+</Menu>
+
+
+              {/* Profile */}
+          
+<IconButton
+  size="large"
+  
+  onClick={handleProfileMenuOpen}
+>
+<Avatar
+  src={userImage}
+  alt="User"
+  sx={{ width: 36, height: 36 }}
+/>
+</IconButton>
+
+<Menu
+  anchorEl={anchorEl}
+  open={Boolean(anchorEl)}
+  onClose={handleProfileMenuClose}
+  PaperProps={{
+    elevation: 4,
+    sx: {
+      mt: 1.5,
+      minWidth: 200,
+      borderRadius: 2,
+      overflow: 'visible',
+      boxShadow: 3,
+      '&:before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        top: 0,
+        right: 14,
+        width: 10,
+        height: 10,
+        bgcolor: 'background.paper',
+        transform: 'translateY(-50%) rotate(45deg)',
+        zIndex: 0,
+      },
+    },
+  }}
+  anchorOrigin={{
+    vertical: 'bottom',
+    horizontal: 'right',
+  }}
+  transformOrigin={{
+    vertical: 'top',
+    horizontal: 'right',
+  }}
+>
+  <MenuItem onClick={handleProfileMenuClose}>
+    <ListItemIcon>
+      <Person fontSize="small" />
+    </ListItemIcon>
+    <Typography variant="body2">Profile</Typography>
+  </MenuItem>
+
+  <MenuItem onClick={handleProfileMenuClose}>
+    <ListItemIcon>
+      <Settings fontSize="small" />
+    </ListItemIcon>
+    <Typography variant="body2">Settings</Typography>
+  </MenuItem>
+
+  <Divider />
+
+  <MenuItem onClick={handleProfileMenuClose}>
+    <ListItemIcon>
+      <Logout fontSize="small" />
+    </ListItemIcon>
+    <Typography variant="body2">Sign Out</Typography>
+  </MenuItem>
+</Menu>
+            </Box>
+          </Toolbar>
+        </AppBar>
+
+        {/* Push content below AppBar height */}
+        <MuiToolbar />
+
+        {/* Main Content */}
+        <Box sx={{ flexGrow: 1, p: 3 }}>{children}</Box>
+
+        {/* Footer */}
+        <Footer />
+      </Box>
+    </Box>
+  );
+}

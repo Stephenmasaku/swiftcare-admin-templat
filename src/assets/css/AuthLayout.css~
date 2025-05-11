@@ -1,0 +1,62 @@
+.auth-layout {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.auth-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+
+/* Ensure the background covers the whole screen */
+.auth-layout {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+}
+
+/* For larger screens, we adjust the logo */
+@media (min-width: 600px) {
+  .auth-layout .logo-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}
+
+/* Ensure form alignment is correct */
+.auth-layout .form-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 400px; /* Ensure the form does not take more than 400px width */
+  margin: 0 auto; /* This centers the form horizontally */
+}
+
+/* Padding for card */
+.auth-layout .card {
+  padding: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Ensure logo is displayed inside the card only on small screens */
+.auth-layout .card .logo-card {
+  margin-bottom: 1.5rem;
+  display: none; /* By default, hide logo inside the card */
+}
+
+@media (max-width: 600px) {
+  .auth-layout .card .logo-card {
+    display: block; /* Show logo only on small screens */
+  }
+}

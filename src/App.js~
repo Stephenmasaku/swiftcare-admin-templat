@@ -1,0 +1,78 @@
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
+// Auth pages
+import Login from './pages/auth/Login';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import OTP from './pages/auth/OTP';
+import PasswordExpired from './pages/auth/PasswordExpired';
+import Error404 from './pages/auth/Error404';
+import LockScreen from './pages/auth/LockScreen';
+
+
+
+// Common pages
+import DashboardMain from './pages/common/DashboardMain';
+import Finance from './pages/common/Finance';
+import Ambulance from './pages/common/Ambulance';
+import BirthDeathRecords from './pages/common/BirthDeathRecords';
+import HR from './pages/common/HR';
+import Messages from './pages/common/Messages';
+import Inventory from './pages/common/Inventory';
+import Pharmacy from './pages/common/Pharmacy';
+import Pathology from './pages/common/Pathology';
+import Radiology from './pages/common/Radiology';
+import OperationTheater from './pages/common/OperationTheater';
+import BloodBank from './pages/common/BloodBank';
+import TPAManagement from './pages/common/TPAManagement';
+
+
+// Missing components based on sidebar menu:
+import FrontOffice from './pages/common/FrontOffice';
+import OPD from './pages/common/OPD';
+import IPD from './pages/common/IPD';
+import DownloadCenter from './pages/common/DownloadCenter';
+
+function App() {
+  useEffect(() => {
+ 
+  }, []);
+
+  return (
+    <Router>
+      <Routes>
+        {/* Auth Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/otp" element={<OTP />} />
+        <Route path="/password-expired" element={<PasswordExpired />} />
+        <Route path="/error-404" element={<Error404 />} />
+        <Route path="/lock-screen" element={<LockScreen />} />
+        
+        
+          {/* Common Routes */}
+        <Route path="/dashboard" element={<DashboardMain />} />
+        <Route path="/finance" element={<Finance />} />
+        <Route path="/ambulance" element={<Ambulance />} />
+        <Route path="/birth-death-records" element={<BirthDeathRecords />} />
+        <Route path="/hr" element={<HR />} />
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/inventory" element={<Inventory />} />
+        <Route path="/pharmacy" element={<Pharmacy />} />
+        <Route path="/pathology" element={<Pathology />} />
+        <Route path="/radiology" element={<Radiology />} />
+        <Route path="/operation-theater" element={<OperationTheater />} />
+        <Route path="/blood-bank" element={<BloodBank />} />
+        <Route path="/tpa-management" element={<TPAManagement />} />
+        
+        {/* Default Route */}
+        <Route path="/" element={<Navigate to="/lock-screen" replace />} />
+        
+        {/* Catch-all Route */}
+        <Route path="*" element={<Navigate to="/error-404" replace />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

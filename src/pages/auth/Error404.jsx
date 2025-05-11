@@ -1,0 +1,211 @@
+import React from 'react';
+import {
+  Typography,
+  Paper,
+  Box,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  useTheme,
+} from '@mui/material';
+import Layout from '../../components/layout/Layout';
+
+import {
+  Bar,
+  Pie,
+} from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+
+
+const dashboardItems = [
+  'Doctors',
+  'ODP',
+  'IDP',
+  'Register Patient',
+   'Pharmacy',
+  
+  'Ambulance',
+  'Nurses',
+  'Laboratory',
+ 
+];
+
+ChartJS.register(BarElement, CategoryScale, LinearScale, ArcElement, Tooltip, Legend);
+
+const appointmentColors = {
+  Dentist: '#0078D4',
+  'Obs Gynae': '#D83B01',
+  Radiology: '#038387',
+  Peds: '#107C10',
+  Other: '#B146C2',
+};
+
+
+
+const diagnosticResultsData = {
+  labels: ['Malaria', 'Typhoid', 'Flu', 'COVID-19', 'Diabetes'],
+  datasets: [
+    {
+      label: 'Entry Conditions & Diagnostic Results',
+      data: [60, 25, 35, 15, 20],
+      backgroundColor: '#038387',
+    },
+  ],
+};
+
+
+
+const incomeData = {
+  labels: ['OPD', 'IPD', 'Pharmacy', 'Pathology', 'Radiology', 'OT', 'Ambulance', 'Research'],
+  datasets: [
+    {
+      label: 'Income Sources',
+      data: [20000, 30000, 25000, 10000, 12000, 15000, 7000, 5000],
+      backgroundColor: [
+        '#0078D4', '#D83B01', '#038387', '#107C10', '#B146C2', '#A4262C', '#5C2D91', '#00B294',
+      ],
+    },
+  ],
+};
+
+const calendarEvents = [
+  { title: 'Dentist: Jane Doe', date: '2025-05-06', color: appointmentColors['Dentist'] },
+  { title: 'Obs Gynae: Mary Smith', date: '2025-05-06', color: appointmentColors['Obs Gynae'] },
+  { title: 'Radiology: John Doe', date: '2025-05-07', color: appointmentColors['Radiology'] },
+  { title: 'Peds: Baby Checkup', date: '2025-05-08', color: appointmentColors['Peds'] },
+  { title: 'General Check: Alex King', date: '2025-05-09', color: appointmentColors['Other'] },
+];
+
+export default function DashboardMain({ children }) {
+  const theme = useTheme();
+
+  return (
+    <Layout>
+      <Box sx={{ p: 4 }}>
+       
+          <Typography variant="h4" gutterBottom sx={{ color: '#323130', fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif' }}>
+            Dashboard
+          </Typography>
+
+          {children || (
+            <Typography variant="body1" sx={{ color: '#605E5C', fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif' }}>
+              Welcome to your SwiftCare Dashboard.
+            </Typography>
+          )}
+
+          {/* Cards Grid */}
+      <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 12, sm: 12, md: 12 }} sx={{ mt: 2 ,mb: 2}}>
+  {dashboardItems.map((item, index) => (
+    <Grid item size={{ xs: 12, sm: 6, md: 3 }} key={index}>
+      <Card
+        sx={{
+          textAlign: 'center',
+          borderRadius: 3,
+          boxShadow: 2,
+          backgroundColor: '#FFFFFF',
+          '&:hover': {
+              boxShadow: 4,
+      backgroundColor: '#d32f2f',
+      color: '#FFFFFF',
+      '& .MuiTypography-root': {
+        color: '#FFFFFF',
+      },
+          },
+          height: '100%',
+        }}
+      >
+        <CardMedia
+          component="img"
+          image={`assets/images/dashboard/${item.replace(/\s+/g, '')}.png`}
+          alt={item}
+          sx={{
+            width: '50%',
+            mx: 'auto',
+            mt: 1,
+            height: 40,
+            objectFit: 'contain',
+          }}
+        />
+        <CardContent>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              color: '#323130',
+              fontWeight: 500,
+              fontFamily: 'Segoe UI, sans-serif',
+            }}
+          >
+            {item}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Grid>
+  ))}
+</Grid>
+
+
+
+ <Grid container spacing={3}>
+       
+        
+         <Grid item  size={{ xs: 12, sm: 12, md: 12 ,lg :12}}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Appointments Calendar</Typography>
+              <FullCalendar
+                plugins={[dayGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                events={calendarEvents}
+                height="auto"
+              />
+            </CardContent>
+          </Card>
+        </Grid>
+        
+      
+    
+
+     <Grid item  size={{ xs: 12, sm: 12, md: 4 ,lg :4}}>
+          <Card>
+            <CardContent>
+          
+              <Typography variant="h6">Income Breakdown</Typography>
+                <br/>  <br/>
+              <Pie data={incomeData} />
+                <br/>  <br/>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item  size={{ xs: 12, sm: 12, md: 8 ,lg :8}}>
+          <Card>
+            <CardContent><br/>
+              <Typography variant="h6">Entry Conditions & Diagnostic Results</Typography>
+              <br/>
+              <Bar data={diagnosticResultsData} />
+              <br/>
+            </CardContent>
+          </Card>
+        </Grid>
+
+       
+  
+        
+         </Grid>
+       
+      </Box>
+    </Layout>
+  );
+}

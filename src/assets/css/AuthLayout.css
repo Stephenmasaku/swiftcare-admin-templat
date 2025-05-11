@@ -1,0 +1,16 @@
+.auth-layout {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.auth-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+
